@@ -1,0 +1,84 @@
+Selenium官网的Document里极力推荐使用CSS locator，而不是XPath来定位元素，原因是CSS locator比XPath locator速度快，特别是在IE下面（IE没有自己的XPath 解析器(Parser)）他比xpath更高效更准确更易编写，美中不足是根据页面文字时略有缺陷没有xpath直接。
+
+因为前端开发人员就是用CSS Selector设置页面上每一个元素的样式，无论那个元素的位置有多复杂，他们能定位到，那我们使用CSS Selector肯定也能非常精准的定位到页面Elements。
+
+CssSelector常用定位
+
+1.根据tagName
+
+　　driver.findElement(By.cssSelector("input")
+
+2.根据ID
+
+　　driver.findElement(By.cssSelector("input#username"));html标签和#id
+
+　　driver.findElement(By.cssSelector("#username"));只是#id
+
+3.根据className
+
+　　单一class：driver.findElement(By.cssSelector(".username"));.class
+
+　　复合class：driver.findElement(By.cssSelector(".username.**.***"));.classA.classB
+
+4.根据元素属性
+
+　　1)精准匹配： 
+
+　　　　[A]  driver.findElement(By.cssSelector("input[name=username]"));属性名=属性值,id,class,等都可写成这种形式
+
+           [B]  driver.findElement(By.cssSelector("img[alt]"));存在属性。例如img元素存在alt属性
+
+　　　　[C]  driver.findElement(By.cssSelector("input[type='submit'][value='Login']"));多属性
+
+　　2)模糊匹配：（正则表达式匹配属性）
+
+　　　　[A]  ^=  driver.findElement(By.cssSelector(Input[id ^='ctrl']));匹配到id头部 如ctrl_12
+
+　　　　[B]  $=  driver.findElement(By.cssSelector(Input[id $='ctrl']));匹配到id尾部 如a_ctrl
+
+　　　　[C]  *=  driver.findElement(By.cssSelector(Input[id *= 'ctrl']));匹配到id中间如1_ctrl_12
+
+　　　　更多正则匹配原则请查看CSS3 选择器——属性选择器  http://www.w3cplus.com/css3/attribute-selectors
+
+5.查询子元素
+
+ 案例html
+以上代码是百度首页搜索输入框和按钮的html，下面讲解以此为例
+
+　　1)子元素   A>B
+
+　　　　WebElement input=  driver.findElement(By.cssSelector("form>span>input"));//搜索输入框
+
+　　2)后代元素   A空格B
+
+　　　　WebElement input=  driver.findElement(By.cssSelector("form input"));//搜索输入框
+
+　　3)第一个后代元素　　:first-child
+
+　　　　WebElement span= driver.findElemet(By.cssSelector("form :first-child"));//冒号前有空格，定位到form下所有级别的第一个子元素
+
+　　　　　　可定位到三个元素：<span id="s_kw_wrap".../> <input id="kw"..../> <input id="su"........./>
+
+　　　　WebElement span= driver.findElemet(By.cssSelector("form input:first-child"));//冒号前无空格，定位到form下所有级别的第一个input元素
+
+　　　　　　可定位到两个元素：<input id="kw"..../> <input id="su"........./>
+
+　　　　WebElement span= driver.findElemet(By.cssSelector("form>span:first-child"));//冒号前无空格，定位到form直接子元素中的第一个span元素
+
+　　　　　　可定位到一个元素：<span id="s_kw_wrap".../>
+
+　　4)最后一个子元素   :last-child  [类同:first-child]
+
+　　　　WebElement userName = driver.findEleme(By.cssSelector("form :last-child"));//冒号前有空格，定位到form下所有级别的第一个子元素
+
+　　5)第2个子元素    :nth-child(N)  [类同:first-child]
+
+　　　　WebElement userName = driver.findElemet(By.cssSelector("form#form :nth-child(2)"));//冒号前有空格，定位到form下所有级别的第二个子元素
+
+6.查询兄弟元素
+
+　　driver.findElement(By.cssSelector("form#form span+span")); 定位到a 再定位到和它相邻的b
+
+深入学习cssselector可访问以下地址：
+
+http://www.w3.org/TR/css3-selectors/
