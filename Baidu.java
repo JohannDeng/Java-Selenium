@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 		
 	    driver.findElement(By.id("kw")).sendKeys("automation");
 	    driver.findElement(By.id("su")).click();
+            /*driver.findElement(By.cssSelector("#su")).click();
+	    
 		/*
 		 * Actions actions=new Actions(driver); WebElement textbox = null;
 		 * actions.moveToElement(textbox, 1, 65).click().perform();
